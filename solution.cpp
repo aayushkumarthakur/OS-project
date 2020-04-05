@@ -1,63 +1,64 @@
 #include <iostream> 
+#include<bits/stdc++.h>
 using namespace std; 
   
 int main() 
 { 
-    // P0, P1, P2, P3, P4 are the Process names here 
+    // Process name are P0, P1, P2, P3 and P4 
   
     int n, m, i, j, k; 
-    n = 5; // Number of processes 
-    m = 4; // Number of resources 
-    int alloc[5][4] = { { 0, 0, 1, 2 }, // P0 // Allocation Matrix 
-                        { 1, 0, 0, 0 }, // P1 
-                        { 1, 3, 5, 4 }, // P2 
-                        { 0, 6, 3, 2 }, // P3 
-                        { 0, 0, 1, 4 } }; // P4 
+    n = 5; // Number of process
+    m = 4; // Number of resource 
+    int allocation[5][4] = { { 0, 0, 1, 2 }, 
+                        { 1, 0, 0, 0 }, 
+                        { 1, 3, 5, 4 }, 
+                        { 0, 6, 3, 2 }, 
+                        { 0, 0, 1, 4 } }; 
   
-    int max[5][4] = { { 0, 0, 1, 2 }, // P0 // MAX Matrix 
-                    { 1, 7, 5, 0 }, // P1 
-                    { 2, 3, 5, 6 }, // P2 
-                    { 0, 6, 5, 2 }, // P3 
-                    { 0, 6, 5, 6 } }; // P4 
+    int maxm[5][4] = { { 0, 0, 1, 2 }, 
+                    { 1, 7, 5, 0 }, 
+                    { 2, 3, 5, 6 }, 
+                    { 0, 6, 5, 2 },
+                    { 0, 6, 5, 6 } }; 
   
-    int avail[4] = { 1, 5, 2, 0 }; // Available Resources 
+    int availble[4] = { 1, 5, 2, 0 }; // Available Resource 
   
-    int f[n], ans[n], ind = 0; 
-    for (k = 0; k < n; k++) { 
-        f[k] = 0; 
+    int g[n], sol[n], num = 0; 
+    for (k=0; k<n; k++) { 
+        g[k] = 0; 
     } 
     int need[n][m]; 
-    for (i = 0; i < n; i++) { 
-        for (j = 0; j < m; j++) 
-            need[i][j] = max[i][j] - alloc[i][j]; 
+    for (i=0; i<n; i++) { 
+        for (j=0; j<m; j++) 
+            need[i][j] = maxm[i][j] - allocation[i][j]; 
     } 
-    int y = 0; 
-    for (k = 0; k < 5; k++) { 
-        for (i = 0; i < n; i++) { 
-            if (f[i] == 0) { 
+    int x = 0; 
+    for (k=0; k<5; k++) { 
+        for (i=0; i<n; i++) { 
+            if (g[i] == 0) { 
   
-                int flag = 0; 
+                int count = 0; 
                 for (j = 0; j < m; j++) { 
-                    if (need[i][j] > avail[j]){ 
-                        flag = 1; 
+                    if (need[i][j] > availble[j]){ 
+                        count = 1; 
                         break; 
                     } 
                 } 
   
-                if (flag == 0) { 
-                    ans[ind++] = i; 
-                    for (y = 0; y < m; y++) 
-                        avail[y] += alloc[i][y]; 
-                    f[i] = 1; 
+                if (count == 0) { 
+                    sol[num++] = i; 
+                    for (x = 0; x < m; x++) 
+                        availble[x] += allocation[i][x]; 
+                    g[i] = 1; 
                 } 
             } 
         } 
     } 
   
-    cout << "Following is the SAFE Sequence" << endl; 
+    cout << "The SAFE Sequence is as followed below" << endl; 
     for (i = 0; i < n - 1; i++) 
-        cout << " P" << ans[i] << " ->"; 
-    cout << " P" << ans[n - 1] <<endl; 
+        cout << " P" << sol[i] << " ->"; 
+    cout << " P" << sol[n - 1] <<"\n"; 
   
-    return (0); 
+    return 0; 
 } 
